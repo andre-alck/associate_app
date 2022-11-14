@@ -1,6 +1,8 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_lorem/flutter_lorem.dart';
+import 'package:p_associate_app/send/services/send_message_service.dart';
 import 'package:p_associate_app/wait/pages/wait_for_messages_page.dart';
 
 class ActionsWidget extends StatelessWidget {
@@ -12,14 +14,23 @@ class ActionsWidget extends StatelessWidget {
   Widget build(
     BuildContext context,
   ) {
+    final sendMessageService = SendMessageService();
+
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           TextButton(
-            onPressed: () => log(
-              'Sent message.',
-            ),
+            onPressed: () {
+              sendMessageService.sendMessage(
+                lorem(
+                  words: 3,
+                ),
+              );
+              log(
+                'Sent message.',
+              );
+            },
             child: const Text(
               'Send message to user.',
             ),
