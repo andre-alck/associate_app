@@ -3,7 +3,7 @@ import 'dart:math';
 import '../repository/user/http_user_repository.dart';
 
 class AssociateUserService {
-  final List<String> userList = [
+  static final List<String> userList = [
     '1',
     '2',
     '3',
