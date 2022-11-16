@@ -2,8 +2,8 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_lorem/flutter_lorem.dart';
+import 'package:p_associate_app/send/services/associate_user_service.dart';
 import 'package:p_associate_app/send/services/send_message_service.dart';
-import 'package:p_associate_app/wait/pages/wait_for_messages_page.dart';
 
 class ActionsWidget extends StatelessWidget {
   const ActionsWidget({
@@ -15,6 +15,7 @@ class ActionsWidget extends StatelessWidget {
     BuildContext context,
   ) {
     final sendMessageService = SendMessageService();
+    TextEditingController usernameController = TextEditingController();
 
     return Center(
       child: Column(
@@ -40,9 +41,27 @@ class ActionsWidget extends StatelessWidget {
           ),
           TextButton(
             onPressed: () {
-              Navigator.pushNamed(
-                context,
-                WaitForMessagesPage.routeName,
+              showDialog(
+                context: context,
+                builder: (
+                  context,
+                ) {
+                  return AlertDialog(
+                    actions: [
+                      InputUsernameWidget(
+                        usernameController: usernameController,
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          // validate input
+                        },
+                        child: const Icon(
+                          Icons.navigate_next,
+                        ),
+                      ),
+                    ],
+                  );
+                },
               );
             },
             child: const Text(
@@ -51,6 +70,44 @@ class ActionsWidget extends StatelessWidget {
           )
         ],
       ),
+    );
+  }
+}
+
+class InputUsernameWidget extends StatefulWidget {
+  const InputUsernameWidget({
+    Key? key,
+    required this.usernameController,
+  }) : super(key: key);
+
+  final TextEditingController usernameController;
+
+  @override
+  State<InputUsernameWidget> createState() => _InputUsernameWidgetState();
+}
+
+class _InputUsernameWidgetState extends State<InputUsernameWidget> {
+  final _formKey = GlobalKey<FormState>();
+  @override
+  Widget build(
+    BuildContext context,
+  ) {
+    return TextFormField(
+      key: _formKey,
+      controller: widget.usernameController,
+      validator: (
+        value,
+      ) {
+        if (value == null ||
+            value.isEmpty ||
+            !AssociateUserService.userList.contains(
+              value,
+            )) {
+          return 'Invalid username.';
+        }
+
+        return null;
+      },
     );
   }
 }
