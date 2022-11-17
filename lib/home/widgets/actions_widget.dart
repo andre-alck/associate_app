@@ -2,7 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_lorem/flutter_lorem.dart';
-import 'package:p_associate_app/send/services/send_message_service.dart';
+import 'package:p_associate_app/send/services/message_service.dart';
 import 'package:p_associate_app/wait/pages/wait_for_messages_page.dart';
 
 class ActionsWidget extends StatelessWidget {
@@ -14,7 +14,7 @@ class ActionsWidget extends StatelessWidget {
   Widget build(
     BuildContext context,
   ) {
-    final SendMessageService sendMessageService = SendMessageService();
+    final MessageService sendMessageService = MessageService();
     TextEditingController usernameController = TextEditingController();
 
     return Center(
@@ -23,13 +23,14 @@ class ActionsWidget extends StatelessWidget {
         children: <Widget>[
           TextButton(
             onPressed: () {
-              sendMessageService.sendMessage(
-                lorem(
-                  words: 3,
-                ),
+              String message = lorem(
+                words: 1,
+              );
+              sendMessageService.send(
+                message,
               );
               log(
-                'Sent message.',
+                'Sent message: $message',
               );
             },
             child: const Text(
@@ -56,10 +57,6 @@ class ActionsWidget extends StatelessWidget {
                     actions: <Widget>[
                       TextFormField(
                         controller: usernameController,
-                        validator: (
-                          value,
-                        ) =>
-                            "TODO: implement validator.",
                       ),
                       IconButton(
                         icon: const Icon(

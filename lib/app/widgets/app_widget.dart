@@ -13,9 +13,6 @@ class AppWidget extends StatelessWidget {
     BuildContext context,
   ) {
     return MaterialApp(
-      theme: ThemeData(
-        brightness: Brightness.dark,
-      ),
       initialRoute: "/home_page",
       routes: {
         HomePage.routeName: (
@@ -25,7 +22,7 @@ class AppWidget extends StatelessWidget {
         WaitForMessagesPage.routeName: (
           context,
         ) =>
-            const WaitForMessagesPage()
+            const WaitForMessagesPage(),
       },
     );
   }

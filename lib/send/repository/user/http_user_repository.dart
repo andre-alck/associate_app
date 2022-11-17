@@ -8,7 +8,7 @@ class HttpUserRepository implements UserRepository {
   Future<String> getLastUser() async {
     Future<Response> futureResponse = http.get(
       Uri.parse(
-        'http://localhost:8080/associate/last-user',
+        'https://01d2-177-103-247-210.sa.ngrok.io/associate/last-user',
       ),
     );
 

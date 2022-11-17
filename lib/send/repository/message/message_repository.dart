@@ -3,4 +3,8 @@ abstract class MessageRepository {
     String user,
     String message,
   );
+
+  Future<String> receiveMessage(
+    String user,
+  );
 }
