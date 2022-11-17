@@ -1,10 +1,9 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:p_associate_app/home/pages/home_page.dart';
-import 'package:p_associate_app/send/services/message_service.dart';
 
-class WaitForMessagesPage extends StatefulWidget {
+import '../widgets/wait_for_messages_widget.dart';
+
+class WaitForMessagesPage extends StatelessWidget {
   static const routeName = "/wait_for_messages_page";
 
   const WaitForMessagesPage({
@@ -12,35 +11,10 @@ class WaitForMessagesPage extends StatefulWidget {
   });
 
   @override
-  State<WaitForMessagesPage> createState() => _WaitForMessagesPageState();
-}
-
-class _WaitForMessagesPageState extends State<WaitForMessagesPage> {
-  Timer? timer;
-
-  @override
-  void initState() {
-    timer = Timer.periodic(
-      const Duration(
-        seconds: 30,
-      ),
-      (
-        timer,
-      ) {
-        setState(
-          () {},
-        );
-      },
-    );
-
-    super.initState();
-  }
-
-  @override
   Widget build(
     BuildContext context,
   ) {
-    final String username = ModalRoute.of(
+    final String user = ModalRoute.of(
       context,
     )?.settings.arguments as String;
 
@@ -53,28 +27,8 @@ class _WaitForMessagesPageState extends State<WaitForMessagesPage> {
           ),
         ),
       ),
-      body: FutureBuilder(
-        builder: (
-          context,
-          snapshot,
-        ) {
-          if (snapshot.connectionState == ConnectionState.done) {
-            if (snapshot.hasData) {
-              return Center(
-                child: Text(
-                  snapshot.data as String,
-                ),
-              );
-            }
-          }
-
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
-        },
-        future: MessageService().receive(
-          username,
-        ),
+      body: WaitForMessagesWidget(
+        user: user,
       ),
     );
   }

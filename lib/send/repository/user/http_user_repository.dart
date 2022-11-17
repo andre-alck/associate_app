@@ -21,4 +21,28 @@ class HttpUserRepository implements UserRepository {
       );
     }
   }
+
+  @override
+  Future<Response> addUser(
+    String name,
+  ) async {
+    Future<Response> futureResponse = http.post(
+      Uri.parse(
+        'https://01d2-177-103-247-210.sa.ngrok.io/associate/',
+      ),
+      headers: <String, String>{
+        "Content-Type": "application/json; charset=URF-8",
+      },
+      body: <String, String>{
+        "name": name,
+      },
+    );
+
+    final Response response = await futureResponse;
+    if (response.statusCode == 200) {
+      return futureResponse;
+    } else {
+      throw "Failed to save user.";
+    }
+  }
 }
