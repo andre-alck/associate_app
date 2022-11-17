@@ -51,18 +51,17 @@ class _WaitForMessagesWidgetState extends State<WaitForMessagesWidget> {
         snapshot,
       ) {
         if (snapshot.connectionState == ConnectionState.done) {
-          if (snapshot.hasData) {
-            timer?.cancel();
+          if (snapshot.hasError) {
+            return Center(
+              child: Text(
+                'Error: ${snapshot.error}',
+              ),
+            );
+          } else if (snapshot.hasData) {
             _showDialog(
               context,
               widget.user,
             );
-
-            // return Center(
-            //   child: Text(
-            //     snapshot.data ?? '',
-            //   ),
-            // );
           }
         }
 
@@ -93,7 +92,7 @@ Future<void> _showDialog(
     ) {
       return AlertDialog(
         title: Text(
-          'New message for you, $username!',
+          'New message, $username!',
         ),
         content: const Text(
           'Accept it?',
@@ -107,6 +106,10 @@ Future<void> _showDialog(
               log(
                 'Accepted it.',
               );
+
+              Navigator.of(
+                context,
+              ).pop();
             },
             child: const Text(
               'Yes',
@@ -117,6 +120,10 @@ Future<void> _showDialog(
               log(
                 'Denialed it.',
               );
+
+              Navigator.of(
+                context,
+              ).pop();
             },
             child: const Text(
               'No',
