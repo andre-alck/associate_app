@@ -6,7 +6,7 @@ void main() {
   test(
     'Given response from API When instanciate user Then check if it exists',
     () async {
-      AssociateUserService associateUserService = AssociateUserService();
+      UserService associateUserService = UserService();
       String user = await associateUserService.associateUser();
 
       // logic: if(exists(user)) { user = user[index + 1] } else { user = user[random] }
@@ -16,7 +16,7 @@ void main() {
       );
 
       expect(
-        AssociateUserService.userList.contains(
+        UserService.userList.contains(
           user,
         ),
         true,

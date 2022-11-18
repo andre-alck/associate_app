@@ -2,15 +2,15 @@ import 'dart:async';
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:p_associate_app/user/services/associate_user_service.dart';
 
 import '../../messenger/services/messenger_service.dart';
-import '../../user/repositories/http_user_repository.dart';
 
 class WaitForMessagesWidget extends StatefulWidget {
-  final String user;
+  final List<String> userAndMessage;
 
   const WaitForMessagesWidget({
-    required this.user,
+    required this.userAndMessage,
     Key? key,
   }) : super(
           key: key,
@@ -23,7 +23,7 @@ class WaitForMessagesWidget extends StatefulWidget {
 class _WaitForMessagesWidgetState extends State<WaitForMessagesWidget> {
   Timer? timer;
 
-  MessageService messageService = MessageService();
+  MessengerService messageService = MessengerService();
 
   @override
   void initState() {
@@ -62,7 +62,8 @@ class _WaitForMessagesWidgetState extends State<WaitForMessagesWidget> {
           } else if (snapshot.hasData) {
             _showDialog(
               context,
-              widget.user,
+              widget.userAndMessage[0],
+              widget.userAndMessage[1],
             );
           }
         }
@@ -72,7 +73,7 @@ class _WaitForMessagesWidgetState extends State<WaitForMessagesWidget> {
         );
       },
       future: messageService.receive(
-        widget.user,
+        widget.userAndMessage[0],
       ),
     );
   }
@@ -81,12 +82,17 @@ class _WaitForMessagesWidgetState extends State<WaitForMessagesWidget> {
 Future<void> _showDialog(
   BuildContext context,
   String username,
+  String message,
 ) async {
   await Future.delayed(
     const Duration(
-      seconds: 1,
+      seconds: 1, // ? remove
     ),
   );
+
+  UserService userService = UserService();
+  MessengerService messengerService = MessengerService();
+
   showDialog(
     context: context,
     builder: (
@@ -102,7 +108,7 @@ Future<void> _showDialog(
         actions: <Widget>[
           TextButton(
             onPressed: () {
-              HttpUserRepository().addUser(
+              userService.addUser(
                 username,
               );
               log(
@@ -121,6 +127,10 @@ Future<void> _showDialog(
             onPressed: () {
               log(
                 'Denialed it.',
+              );
+
+              messengerService.send(
+                message,
               );
 
               Navigator.of(

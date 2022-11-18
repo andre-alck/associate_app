@@ -2,7 +2,7 @@ import 'dart:math';
 
 import '../repositories/http_user_repository.dart';
 
-class AssociateUserService {
+class UserService {
   static final List<String> userList = [
     '1',
     '2',
@@ -11,8 +11,10 @@ class AssociateUserService {
     '5',
   ];
 
+  HttpUserRepository httpUserRepository = HttpUserRepository();
+
   Future<String> associateUser() async {
-    final lastUser = await HttpUserRepository().getLastUser();
+    final lastUser = await httpUserRepository.getLastUser();
     String user = "";
 
     if (lastUser == "") {
@@ -32,5 +34,13 @@ class AssociateUserService {
     }
 
     return user;
+  }
+
+  Future<void> addUser(
+    String user,
+  ) async {
+    httpUserRepository.addUser(
+      user,
+    );
   }
 }

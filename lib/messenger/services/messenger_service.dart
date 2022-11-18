@@ -5,12 +5,12 @@ import 'package:p_associate_app/user/services/associate_user_service.dart';
 
 import '../repositories/amqp_messenger_repository.dart';
 
-class MessageService {
-  Future<void> send(
+class MessengerService {
+  Future<String> send(
     String message,
   ) async {
-    AmqpMessageRepository amqpMessageRepository = AmqpMessageRepository();
-    AssociateUserService associateUserService = AssociateUserService();
+    AmqpMessengerRepository amqpMessengerRepository = AmqpMessengerRepository();
+    UserService associateUserService = UserService();
 
     String user = await associateUserService.associateUser();
 
@@ -18,16 +18,18 @@ class MessageService {
       'Chosen user: $user',
     );
 
-    amqpMessageRepository.sendMessage(
+    amqpMessengerRepository.sendMessage(
       user,
       message,
     );
+
+    return user;
   }
 
   Future<String> receive(
     String user,
   ) async {
-    AmqpMessageRepository amqpMessageRepository = AmqpMessageRepository();
+    AmqpMessengerRepository amqpMessageRepository = AmqpMessengerRepository();
     String message = await amqpMessageRepository.receiveMessage(
       user,
     );

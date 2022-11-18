@@ -1,5 +1,5 @@
-abstract class MessageRepository {
-  Future<void> sendMessage(
+abstract class MessengerRepository {
+  Future<String> sendMessage(
     String user,
     String message,
   );

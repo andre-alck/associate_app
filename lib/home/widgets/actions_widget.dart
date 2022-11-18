@@ -14,21 +14,35 @@ class ActionsWidget extends StatelessWidget {
   Widget build(
     BuildContext context,
   ) {
-    final MessageService sendMessageService = MessageService();
+    final MessengerService messengerService = MessengerService();
     TextEditingController usernameController = TextEditingController();
+    String message = lorem(
+      words: 1,
+    );
 
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           TextButton(
-            onPressed: () {
-              String message = lorem(
-                words: 1,
-              );
-              sendMessageService.send(
+            onPressed: () async {
+              String user = await messengerService.send(
                 message,
               );
+
+              Future.delayed(
+                Duration.zero,
+                () => ScaffoldMessenger.of(
+                  context,
+                ).showSnackBar(
+                  SnackBar(
+                    content: Text(
+                      'Sent message to $user',
+                    ),
+                  ),
+                ),
+              );
+
               log(
                 'Sent message: $message',
               );
@@ -65,7 +79,7 @@ class ActionsWidget extends StatelessWidget {
                         onPressed: () => Navigator.pushNamed(
                           context,
                           WaitForMessagesPage.routeName,
-                          arguments: usernameController.text.trim(),
+                          arguments: [usernameController.text.trim(), message],
                         ),
                       ),
                     ],

@@ -14,9 +14,9 @@ class WaitForMessagesPage extends StatelessWidget {
   Widget build(
     BuildContext context,
   ) {
-    final String user = ModalRoute.of(
+    final userAndMessage = ModalRoute.of(
       context,
-    )?.settings.arguments as String;
+    )?.settings.arguments as List<String>;
 
     return Scaffold(
       appBar: AppBar(
@@ -28,7 +28,7 @@ class WaitForMessagesPage extends StatelessWidget {
         ),
       ),
       body: WaitForMessagesWidget(
-        user: user,
+        userAndMessage: userAndMessage,
       ),
     );
   }

@@ -5,9 +5,9 @@ import 'package:dart_amqp/dart_amqp.dart';
 
 import 'messenger_repository.dart';
 
-class AmqpMessageRepository implements MessageRepository {
+class AmqpMessengerRepository implements MessengerRepository {
   @override
-  Future<void> sendMessage(
+  Future<String> sendMessage(
     String user,
     String message,
   ) async {
@@ -32,6 +32,8 @@ class AmqpMessageRepository implements MessageRepository {
     );
 
     client.close();
+
+    return user;
   }
 
   @override
