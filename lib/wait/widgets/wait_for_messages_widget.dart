@@ -23,6 +23,8 @@ class WaitForMessagesWidget extends StatefulWidget {
 class _WaitForMessagesWidgetState extends State<WaitForMessagesWidget> {
   Timer? timer;
 
+  MessageService messageService = MessageService();
+
   @override
   void initState() {
     timer = Timer.periodic(
@@ -69,7 +71,7 @@ class _WaitForMessagesWidgetState extends State<WaitForMessagesWidget> {
           child: CircularProgressIndicator(),
         );
       },
-      future: MessageService().receive(
+      future: messageService.receive(
         widget.user,
       ),
     );

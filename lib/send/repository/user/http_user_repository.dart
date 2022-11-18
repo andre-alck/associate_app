@@ -10,7 +10,7 @@ class HttpUserRepository implements UserRepository {
   Future<String> getLastUser() async {
     Future<Response> futureResponse = http.get(
       Uri.parse(
-        'https://01d2-177-103-247-210.sa.ngrok.io/associate/last-user',
+        'https://b520-177-103-247-210.sa.ngrok.io/associate/last-user',
       ),
     );
 
@@ -30,7 +30,7 @@ class HttpUserRepository implements UserRepository {
   ) async {
     Future<Response> futureResponse = http.post(
       Uri.parse(
-        'https://01d2-177-103-247-210.sa.ngrok.io/associate/',
+        'https://b520-177-103-247-210.sa.ngrok.io/associate/',
       ),
       headers: <String, String>{
         "Content-Type": "application/json; charset=UTF-8",
