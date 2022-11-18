@@ -3,7 +3,7 @@ import 'dart:io';
 
 import 'package:dart_amqp/dart_amqp.dart';
 
-import 'message_repository.dart';
+import 'messenger_repository.dart';
 
 class AmqpMessageRepository implements MessageRepository {
   @override

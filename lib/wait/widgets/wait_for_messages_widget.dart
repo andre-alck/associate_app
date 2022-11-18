@@ -3,8 +3,8 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 
-import '../../send/repository/user/http_user_repository.dart';
-import '../../send/services/message_service.dart';
+import '../../messenger/services/messenger_service.dart';
+import '../../user/repositories/http_user_repository.dart';
 
 class WaitForMessagesWidget extends StatefulWidget {
   final String user;

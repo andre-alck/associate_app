@@ -1,8 +1,9 @@
 import 'dart:async';
 import 'dart:developer';
 
-import 'package:p_associate_app/send/repository/message/amqp_message_repository.dart';
-import 'package:p_associate_app/send/services/associate_user_service.dart';
+import 'package:p_associate_app/user/services/associate_user_service.dart';
+
+import '../repositories/amqp_messenger_repository.dart';
 
 class MessageService {
   Future<void> send(

@@ -1,6 +1,6 @@
 import 'dart:math';
 
-import '../repository/user/http_user_repository.dart';
+import '../repositories/http_user_repository.dart';
 
 class AssociateUserService {
   static final List<String> userList = [

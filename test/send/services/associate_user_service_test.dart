@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:p_associate_app/send/services/associate_user_service.dart';
+import 'package:p_associate_app/user/services/associate_user_service.dart';
 
 void main() {
   test(
