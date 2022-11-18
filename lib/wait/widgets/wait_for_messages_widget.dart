@@ -81,7 +81,7 @@ class _WaitForMessagesWidgetState extends State<WaitForMessagesWidget> {
 
 Future<void> _showDialog(
   BuildContext context,
-  String username,
+  String user,
   String message,
 ) async {
   await Future.delayed(
@@ -100,7 +100,7 @@ Future<void> _showDialog(
     ) {
       return AlertDialog(
         title: Text(
-          'New message, $username!',
+          'New message, $user!',
         ),
         content: const Text(
           'Accept it?',
@@ -109,7 +109,7 @@ Future<void> _showDialog(
           TextButton(
             onPressed: () {
               userService.addUser(
-                username,
+                user,
               );
               log(
                 'Accepted it.',
@@ -127,6 +127,10 @@ Future<void> _showDialog(
             onPressed: () {
               log(
                 'Denialed it.',
+              );
+
+              userService.addUser(
+                user,
               );
 
               messengerService.send(

@@ -15,7 +15,16 @@ class ActionsWidget extends StatelessWidget {
     BuildContext context,
   ) {
     final MessengerService messengerService = MessengerService();
-    TextEditingController usernameController = TextEditingController();
+
+    final List<String> usernames = [
+      "André",
+      "Jackeline",
+      "Julia",
+      "Kaue",
+      "Vinicius",
+    ];
+    String username = "";
+
     String message = lorem(
       words: 1,
     );
@@ -63,14 +72,40 @@ class ActionsWidget extends StatelessWidget {
                 ) {
                   return AlertDialog(
                     title: const Text(
-                      'Enter your username',
-                    ),
-                    content: const Text(
-                      '[1...5] only!',
+                      'Select your username',
                     ),
                     actions: <Widget>[
-                      TextFormField(
-                        controller: usernameController,
+                      DropdownButtonFormField(
+                        icon: const Icon(
+                          Icons.person,
+                        ),
+                        value: (username.isEmpty) ? null : username,
+                        onChanged: (
+                          userChoice,
+                        ) =>
+                            username = userChoice.toString(),
+                        items: usernames
+                            .map(
+                              (
+                                name,
+                              ) =>
+                                  DropdownMenuItem(
+                                value: name,
+                                child: Text(
+                                  name,
+                                ),
+                              ),
+                            )
+                            .toList(),
+                        decoration: const InputDecoration(
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(
+                                10,
+                              ),
+                            ),
+                          ),
+                        ),
                       ),
                       IconButton(
                         icon: const Icon(
@@ -79,7 +114,10 @@ class ActionsWidget extends StatelessWidget {
                         onPressed: () => Navigator.pushNamed(
                           context,
                           WaitForMessagesPage.routeName,
-                          arguments: [usernameController.text.trim(), message],
+                          arguments: [
+                            username,
+                            message,
+                          ],
                         ),
                       ),
                     ],

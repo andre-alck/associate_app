@@ -4,11 +4,11 @@ import '../repositories/http_user_repository.dart';
 
 class UserService {
   static final List<String> userList = [
-    '1',
-    '2',
-    '3',
-    '4',
-    '5',
+    'André',
+    'Jackeline',
+    'Julia',
+    'Kaue',
+    'Vinicius',
   ];
 
   HttpUserRepository httpUserRepository = HttpUserRepository();
