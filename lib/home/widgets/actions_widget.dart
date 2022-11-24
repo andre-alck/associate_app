@@ -33,7 +33,7 @@ class ActionsWidget extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          TextButton(
+          IconButton(
             onPressed: () async {
               String user = await messengerService.send(
                 message,
@@ -45,6 +45,7 @@ class ActionsWidget extends StatelessWidget {
                   context,
                 ).showSnackBar(
                   SnackBar(
+                    backgroundColor: Colors.green[300],
                     content: Text(
                       'Sent message to $user',
                     ),
@@ -56,79 +57,76 @@ class ActionsWidget extends StatelessWidget {
                 'Sent message: $message',
               );
             },
-            child: const Text(
-              'Send message to user.',
+            icon: const Icon(
+              Icons.send,
             ),
           ),
           const SizedBox(
             height: 10,
           ),
-          TextButton(
-            onPressed: () {
-              showDialog(
-                context: context,
-                builder: (
-                  BuildContext context,
-                ) {
-                  return AlertDialog(
-                    title: const Text(
-                      'Select your username',
-                    ),
-                    actions: <Widget>[
-                      DropdownButtonFormField(
-                        icon: const Icon(
-                          Icons.person,
-                        ),
-                        value: (username.isEmpty) ? null : username,
-                        onChanged: (
-                          userChoice,
-                        ) =>
-                            username = userChoice.toString(),
-                        items: usernames
-                            .map(
-                              (
-                                name,
-                              ) =>
-                                  DropdownMenuItem(
-                                value: name,
-                                child: Text(
+          IconButton(
+              onPressed: () {
+                showDialog(
+                  context: context,
+                  builder: (
+                    BuildContext context,
+                  ) {
+                    return AlertDialog(
+                      title: const Text(
+                        'Select your username',
+                      ),
+                      actions: <Widget>[
+                        DropdownButtonFormField(
+                          icon: const Icon(
+                            Icons.person,
+                          ),
+                          value: (username.isEmpty) ? null : username,
+                          onChanged: (
+                            userChoice,
+                          ) =>
+                              username = userChoice.toString(),
+                          items: usernames
+                              .map(
+                                (
                                   name,
+                                ) =>
+                                    DropdownMenuItem(
+                                  value: name,
+                                  child: Text(
+                                    name,
+                                  ),
                                 ),
-                              ),
-                            )
-                            .toList(),
-                        decoration: const InputDecoration(
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(
-                                10,
+                              )
+                              .toList(),
+                          decoration: const InputDecoration(
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(
+                                  10,
+                                ),
                               ),
                             ),
                           ),
                         ),
-                      ),
-                      IconButton(
-                        icon: const Icon(
-                          Icons.navigate_next,
+                        IconButton(
+                          icon: const Icon(
+                            Icons.navigate_next,
+                          ),
+                          onPressed: () => Navigator.pushNamed(
+                            context,
+                            WaitForMessagesPage.routeName,
+                            arguments: [
+                              username,
+                              message,
+                            ],
+                          ),
                         ),
-                        onPressed: () => Navigator.pushNamed(
-                          context,
-                          WaitForMessagesPage.routeName,
-                          arguments: [
-                            username,
-                            message,
-                          ],
-                        ),
-                      ),
-                    ],
-                  );
-                },
-              );
-            },
-            child: const Text(
-              'Wait for messages.',
-            ),
-          )
+                      ],
+                    );
+                  },
+                );
+              },
+              icon: Icon(Icons.message))
         ],
       ),
     );

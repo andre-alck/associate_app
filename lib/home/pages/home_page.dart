@@ -15,10 +15,18 @@ class HomePage extends StatelessWidget {
   ) {
     return Scaffold(
       appBar: AppBar(
-        automaticallyImplyLeading: false,
-        title: const Text(
-          'HomePage',
+        backgroundColor: Colors.deepPurple,
+        leading: const Icon(
+          Icons.menu,
         ),
+        title: const Text(
+          'Menu ',
+        ),
+        actions: const <Widget>[
+          Icon(
+            Icons.more_vert,
+          ),
+        ],
       ),
       body: const ActionsWidget(),
     );
