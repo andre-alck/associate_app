@@ -7,29 +7,18 @@ import 'messenger_repository.dart';
 
 class AmqpMessengerRepository implements MessengerRepository {
   @override
-  Future<String> sendMessage(
-    String user,
-    String message,
-  ) async {
+  Future<String> sendMessage(String user, String message) async {
     ConnectionSettings connectionSettings = ConnectionSettings(
-      maxConnectionAttempts: 5,
-      host: '10.0.2.2',
-      port: 5672,
-    );
+        maxConnectionAttempts: 5, host: '10.0.2.2', port: 5672);
 
     Client client = Client(
       settings: connectionSettings,
     );
     Channel channel = await client.channel();
-    Exchange exchange = await channel.exchange(
-      "direct_logs",
-      ExchangeType.DIRECT,
-    );
+    Exchange exchange =
+        await channel.exchange("direct_logs", ExchangeType.DIRECT);
 
-    exchange.publish(
-      message,
-      user,
-    );
+    exchange.publish(message, user);
 
     client.close();
 
@@ -37,69 +26,32 @@ class AmqpMessengerRepository implements MessengerRepository {
   }
 
   @override
-  Future<String> receiveMessage(
-    String user,
-  ) async {
+  Future<String> receiveMessage(String user) async {
     ConnectionSettings connectionSettings = ConnectionSettings(
-      maxConnectionAttempts: 5,
-      host: '10.0.2.2',
-      port: 5672,
-    );
-    Client client = Client(
-      settings: connectionSettings,
-    );
-    ProcessSignal.sigint.watch().listen(
-      (
-        event,
-      ) async {
-        await client.close();
-        exit(
-          0,
-        );
-      },
-    );
+        maxConnectionAttempts: 5, host: '10.0.2.2', port: 5672);
+    Client client = Client(settings: connectionSettings);
+    ProcessSignal.sigint.watch().listen((event) async {
+      await client.close();
+      exit(0);
+    });
 
     List<String> routingKeys = [];
-    routingKeys.add(
-      user,
-    );
+    routingKeys.add(user);
 
     final Completer<String> completer = Completer<String>();
 
-    client.channel().then(
-      (
-        Channel channel,
-      ) {
-        return channel.exchange(
-          "direct_logs",
-          ExchangeType.DIRECT,
-          durable: false,
-        );
-      },
-    ).then(
-      (
-        Exchange exchange,
-      ) {
-        return exchange.bindPrivateQueueConsumer(
-          routingKeys,
-          consumerTag: "direct_logs",
-          noAck: true,
-        );
-      },
-    ).then(
-      (
-        Consumer consumer,
-      ) {
-        consumer.listen(
-          (
-            AmqpMessage message,
-          ) =>
-              completer.complete(
-            message.payloadAsString,
-          ),
-        );
-      },
-    );
+    client.channel().then((Channel channel) {
+      return channel.exchange("direct_logs", ExchangeType.DIRECT,
+          durable: false);
+    }).then((
+      Exchange exchange,
+    ) {
+      return exchange.bindPrivateQueueConsumer(routingKeys,
+          consumerTag: "direct_logs", noAck: true);
+    }).then((Consumer consumer) {
+      consumer.listen(
+          (AmqpMessage message) => completer.complete(message.payloadAsString));
+    });
 
     return completer.future;
   }

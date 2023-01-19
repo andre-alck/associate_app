@@ -6,14 +6,10 @@ import 'package:p_associate_app/messenger/services/messenger_service.dart';
 import 'package:p_associate_app/wait/pages/wait_for_messages_page.dart';
 
 class ActionsWidget extends StatelessWidget {
-  const ActionsWidget({
-    super.key,
-  });
+  const ActionsWidget({super.key});
 
   @override
-  Widget build(
-    BuildContext context,
-  ) {
+  Widget build(BuildContext context) {
     final MessengerService messengerService = MessengerService();
 
     final List<String> usernames = [
@@ -21,114 +17,61 @@ class ActionsWidget extends StatelessWidget {
       "Jackeline",
       "Julia",
       "Kaue",
-      "Vinicius",
+      "Vinicius"
     ];
     String username = "";
 
-    String message = lorem(
-      words: 1,
-    );
+    String message = lorem(words: 1);
 
     return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
+        child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
           IconButton(
             onPressed: () async {
-              String user = await messengerService.send(
-                message,
-              );
+              String user = await messengerService.send(message);
 
               Future.delayed(
-                Duration.zero,
-                () => ScaffoldMessenger.of(
-                  context,
-                ).showSnackBar(
-                  SnackBar(
-                    backgroundColor: Colors.green[300],
-                    content: Text(
-                      'Sent message to $user',
-                    ),
-                  ),
-                ),
-              );
+                  Duration.zero,
+                  () => ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                      backgroundColor: Colors.green[300],
+                      content: Text('Sent message to $user'))));
 
-              log(
-                'Sent message: $message',
-              );
+              log('Sent message: $message');
             },
-            icon: const Icon(
-              Icons.send,
-            ),
+            icon: const Icon(Icons.send),
           ),
-          const SizedBox(
-            height: 10,
-          ),
+          const SizedBox(height: 10),
           IconButton(
               onPressed: () {
                 showDialog(
-                  context: context,
-                  builder: (
-                    BuildContext context,
-                  ) {
-                    return AlertDialog(
-                      title: const Text(
-                        'Select your username',
-                      ),
-                      actions: <Widget>[
-                        DropdownButtonFormField(
-                          icon: const Icon(
-                            Icons.person,
-                          ),
-                          value: (username.isEmpty) ? null : username,
-                          onChanged: (
-                            userChoice,
-                          ) =>
-                              username = userChoice.toString(),
-                          items: usernames
-                              .map(
-                                (
-                                  name,
-                                ) =>
-                                    DropdownMenuItem(
-                                  value: name,
-                                  child: Text(
-                                    name,
-                                  ),
-                                ),
-                              )
-                              .toList(),
-                          decoration: const InputDecoration(
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(
-                                  10,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                        IconButton(
-                          icon: const Icon(
-                            Icons.navigate_next,
-                          ),
-                          onPressed: () => Navigator.pushNamed(
-                            context,
-                            WaitForMessagesPage.routeName,
-                            arguments: [
-                              username,
-                              message,
-                            ],
-                          ),
-                        ),
-                      ],
-                    );
-                  },
-                );
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                          title: const Text('Select your username'),
+                          actions: <Widget>[
+                            DropdownButtonFormField(
+                                icon: const Icon(Icons.person),
+                                value: (username.isEmpty) ? null : username,
+                                onChanged: (userChoice) =>
+                                    username = userChoice.toString(),
+                                items: usernames
+                                    .map((name) => DropdownMenuItem(
+                                        value: name, child: Text(name)))
+                                    .toList(),
+                                decoration: const InputDecoration(
+                                    border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(10))))),
+                            IconButton(
+                                icon: const Icon(Icons.navigate_next),
+                                onPressed: () => Navigator.pushNamed(
+                                    context, WaitForMessagesPage.routeName,
+                                    arguments: [username, message]))
+                          ]);
+                    });
               },
-              icon: Icon(Icons.message))
-        ],
-      ),
-    );
+              icon: const Icon(Icons.message))
+        ]));
   }
 }
