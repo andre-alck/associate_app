@@ -1,6 +1,6 @@
 import 'dart:math';
 
-import '../repositories/http_user_repository.dart';
+import 'package:p_associate_app/user/repositories/http_user_repository.dart';
 
 class UserService {
   static final List<String> userList = [
@@ -8,7 +8,7 @@ class UserService {
     'Jackeline',
     'Julia',
     'Kaue',
-    'Vinicius',
+    'Vinicius'
   ];
 
   HttpUserRepository httpUserRepository = HttpUserRepository();
@@ -18,9 +18,7 @@ class UserService {
     String user = "";
 
     if (lastUser == "") {
-      user = userList[Random().nextInt(
-        userList.length - 1,
-      )];
+      user = userList[Random().nextInt(userList.length - 1)];
     } else {
       if (lastUser == userList[userList.length - 1]) {
         user = userList[0];
@@ -39,8 +37,6 @@ class UserService {
   Future<void> addUser(
     String user,
   ) async {
-    httpUserRepository.addUser(
-      user,
-    );
+    httpUserRepository.addUser(user);
   }
 }

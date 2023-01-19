@@ -2,25 +2,19 @@ import 'dart:convert';
 
 import 'package:http/http.dart';
 import 'package:http/http.dart' as http;
-
-import 'user_repository.dart';
+import 'package:p_associate_app/user/repositories/user_repository.dart';
 
 class HttpUserRepository implements UserRepository {
   @override
   Future<String> getLastUser() async {
-    Future<Response> futureResponse = http.get(
-      Uri.parse(
-        'https://072f-177-103-247-210.sa.ngrok.io/associate/last-user',
-      ),
-    );
+    Future<Response> futureResponse = http
+        .get(Uri.parse('a15c-179-93-248-65.sa.ngrok.io/associate/last-user'));
 
     final response = await futureResponse;
     if (response.statusCode == 200) {
       return response.body;
     } else {
-      throw Exception(
-        'Failed to get last user.',
-      );
+      throw Exception('Failed to get last user.');
     }
   }
 
@@ -29,16 +23,11 @@ class HttpUserRepository implements UserRepository {
     String user,
   ) async {
     Future<Response> futureResponse = http.post(
-      Uri.parse(
-        'https://072f-177-103-247-210.sa.ngrok.io/associate/',
-      ),
-      headers: <String, String>{
-        "Content-Type": "application/json; charset=UTF-8",
-      },
-      body: jsonEncode(
-        {"name": user},
-      ),
-    );
+        Uri.parse('a15c-179-93-248-65.sa.ngrok.io/associate/'),
+        headers: <String, String>{
+          "Content-Type": "application/json; charset=UTF-8"
+        },
+        body: jsonEncode({"name": user}));
 
     final Response response = await futureResponse;
     if (response.statusCode == 201) {
